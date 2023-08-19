@@ -81,7 +81,7 @@ export default function Signup() {
               Sign Up
             </button>
           </div>
-          <p className="my-2 cursor-pointer text-gray-600 text-center">Have an account</p>
+          <p className="my-2 cursor-pointer text-gray-600 text-center hover:font-semibold">Have an account</p>
         </form>
       </div>
     </div>
