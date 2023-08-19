@@ -1,15 +1,35 @@
+import axios from 'axios';
 import React, { useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [errors, setError] = useState([]);
 
+const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Perform form submission or validation here
-    console.log('Form submitted:', { email, password, name, phoneNumber });
+    try {
+      axios.post('/register', { email, password, name, phoneNumber })
+      .then(({data}) => {
+        if (data === true) {
+          navigate('/')
+        }
+      })
+      .catch((err) => {
+        alert(err)
+      })
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        setError(error.response.data.errors)
+      }
+      else {
+        console.error(error.message)
+      }
+    }
   };
 
   return (
@@ -28,6 +48,8 @@ export default function Signup() {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
+              title="Please enter a valid email address"
               required
             />
           </div>
@@ -42,6 +64,8 @@ export default function Signup() {
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,}$"
+              title="Password must be at least 4 characters long and contain at least one letter and one number"
               required
             />
           </div>
@@ -56,6 +80,8 @@ export default function Signup() {
               placeholder="Enter your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              pattern="^[A-Za-z\s]{2,}$"
+              title="Please enter a valid name (minimum 2 characters, letters only)"
               required
             />
           </div>
@@ -70,6 +96,8 @@ export default function Signup() {
               placeholder="Enter your phone number"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
+              pattern="^\d{10}$"
+              title='Enter 10 digits'
               required
             />
           </div>
@@ -81,7 +109,9 @@ export default function Signup() {
               Sign Up
             </button>
           </div>
-          <p className="my-2 cursor-pointer text-gray-600 text-center hover:font-semibold">Have an account</p>
+          <Link to={"/"}>
+            <p className="my-2 cursor-pointer text-gray-600 text-center hover:font-semibold">{errors ? `Have an account` : errors}</p>
+          </Link>
         </form>
       </div>
     </div>
