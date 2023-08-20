@@ -8,7 +8,9 @@ export default function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('/login', {email , password})
+    const response =  axios.post('/login', {email , password})
+    const {token} = response
+    console.log(token);
   }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
