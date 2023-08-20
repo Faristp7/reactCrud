@@ -9,6 +9,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 export default function AuthWrapper() {
   const [auth, setAuth] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [redirecting, setRedirecting] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,6 +18,8 @@ export default function AuthWrapper() {
         const response = await axios.get("/checkAuth");
         if (response.data.auth) {
           setAuth(true);
+        } else {
+          setRedirecting(true);
         }
       } catch (error) {
         console.error(error);
@@ -30,15 +33,20 @@ export default function AuthWrapper() {
   if (loading) {
     return <div>loading...</div>;
   }
-  if (!auth) {
-    navigate("/");
-    return null;
-  }
+  // if (redirecting) {
+  //   navigate("/");
+  //   return null;
+  // }
   return (
     <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/home" element={<Home />} />
+      {auth ? (
+        <Route path="/*" element={<Home />} />
+      ) : (
+        <>
+          <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </>
+      )}
     </Routes>
   );
 }
