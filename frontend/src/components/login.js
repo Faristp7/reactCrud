@@ -10,7 +10,7 @@ export default function Login() {
     e.preventDefault();
     const response =  axios.post('/login', {email , password})
     const {token} = response
-    console.log(token);
+    console.log(response);
   }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
