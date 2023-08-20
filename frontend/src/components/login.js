@@ -1,16 +1,22 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link ,useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux'
+import { setUser } from "../app/store";
 
 export default function Login() {
   const [email ,setEmail] = useState('')
   const [password , setPassword] = useState('')
 
-  const handleSubmit = (e) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const response =  axios.post('/login', {email , password})
-    const {token} = response
-    console.log(response);
+    const response =  await axios.post('/login', {email , password})
+    const {token ,user} = response.data
+    dispatch(setUser(user))
+    navigate('/home')
   }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
