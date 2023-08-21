@@ -1,5 +1,6 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Signup() {
@@ -9,19 +10,22 @@ export default function Signup() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [errors, setError] = useState([]);
 
-const navigate = useNavigate()
+  const user = useSelector((state) => state.auth)
+
+
+  const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
       axios.post('/register', { email, password, name, phoneNumber })
-      .then(({data}) => {
-        if (data === true) {
-          navigate('/')
-        }
-      })
-      .catch((err) => {
-        alert(err)
-      })
+        .then(({ data }) => {
+          if (data === true) {
+            navigate('/')
+          }
+        })
+        .catch((err) => {
+          alert(err)
+        })
     } catch (error) {
       if (error.response && error.response.status === 400) {
         setError(error.response.data.errors)
@@ -31,7 +35,11 @@ const navigate = useNavigate()
       }
     }
   };
-
+  useEffect(() => {
+    if (user.success) {
+      navigate('/home')
+    }
+  }, [user.success])
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-96">

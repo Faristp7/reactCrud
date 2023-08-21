@@ -72,9 +72,9 @@ export async function checkAuth(req, res) {
 
       return res.status(200).json({ auth: true });
     } catch (error) {
-      console.log(error);
+      res.status(401).json({auth : false})
     }
   } catch (error) {
-    console.log(error);
+    res.status(401).json({auth : false})
   }
 }

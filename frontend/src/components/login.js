@@ -1,23 +1,26 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link ,useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { setUser } from "../app/store";
 
 export default function Login() {
-  const [email ,setEmail] = useState('')
-  const [password , setPassword] = useState('')
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response =  await axios.post('/login', {email , password})
-    const {token ,user} = response.data
-    dispatch(setUser(user))
-    navigate('/home')
-  }
+    const response = await axios.post("/login", { email, password });
+    const { user } = response.data;
+    dispatch(setUser(user));
+    localStorage.setItem("user", JSON.stringify(user));
+
+    navigate("/home");
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-96">
@@ -66,7 +69,10 @@ export default function Login() {
             </button>
           </div>
           <Link to={"/signup"}>
-          <p className="my-2 cursor-pointer text-gray-600">Dont have an account ?</p></Link>
+            <p className="my-2 cursor-pointer text-gray-600 underline">
+              Dont have an account ?
+            </p>
+          </Link>
         </form>
       </div>
     </div>

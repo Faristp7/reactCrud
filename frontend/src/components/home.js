@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Home() {
   const [profileImage, setProfileImage] = useState(
@@ -48,6 +49,9 @@ export default function Home() {
         >
           Logout
         </button>
+        <Link to="/test">
+        test
+        </Link>
       </div>
     </div>
   );

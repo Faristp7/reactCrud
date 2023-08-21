@@ -1,52 +1,39 @@
 import Login from "../components/login";
 import Signup from "../components/signUp";
 import Home from "../components/home";
+import Test from "../components/Test";
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../app/store";
 
 export default function AuthWrapper() {
-  const [auth, setAuth] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [redirecting, setRedirecting] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const userLocalStorage = JSON.parse(localStorage.getItem("user"));
+
+  const user = useSelector(state => state.auth)
 
   useEffect(() => {
     const checkAuth = async () => {
-      try {
-        const response = await axios.get("/checkAuth");
-        if (response.data.auth) {
-          setAuth(true);
-        } else {
-          setRedirecting(true);
-        }
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
+      console.log(user);
+      if (userLocalStorage) {
+        dispatch(setUser(userLocalStorage));
+          navigate("/home");
+      } else {
+        navigate('/')
       }
     };
     checkAuth();
   }, []);
 
-  if (loading) {
-    return <div>loading...</div>;
-  }
-  // if (redirecting) {
-  //   navigate("/");
-  //   return null;
-  // }
   return (
     <Routes>
-      {auth ? (
-        <Route path="/*" element={<Home />} />
-      ) : (
-        <>
-          <Route path="/" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-        </>
-      )}
+          <Route path="/" element={!user.success ? <Login /> : <Home/>} />
+          <Route path="/signup" element={!user.success ? <Signup /> : <Home/>} />
+          <Route path="/home" element={user.success ? <Home /> : <Login/>} />
+          <Route path="/test" element={<Test />} />
     </Routes>
   );
 }
