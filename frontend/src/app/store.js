@@ -11,8 +11,11 @@ const authSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
       state.success = true
-      console.log(state.success, "this is store");
     },
+    logout(state, action){
+      state.success = false
+      state.user = {}
+    }
   },
 });
 
@@ -22,5 +25,5 @@ const store = configureStore({
   }
 })
 
-export const { setUser } = authSlice.actions;
+export const { setUser, logout } = authSlice.actions;
 export default store;

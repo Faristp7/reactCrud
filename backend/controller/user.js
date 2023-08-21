@@ -72,9 +72,19 @@ export async function checkAuth(req, res) {
 
       return res.status(200).json({ auth: true });
     } catch (error) {
-      res.status(401).json({auth : false})
+      res.status(401).json({ auth: false });
     }
   } catch (error) {
-    res.status(401).json({auth : false})
+    res.status(401).json({ auth: false });
+  }
+}
+
+export async function logout(req, res) {
+  try {
+    res.cookie("token", "", { expires: new Date(0), httpOnly: true });
+
+    res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.log(error);
   }
 }
