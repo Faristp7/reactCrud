@@ -104,3 +104,11 @@ export async function updateImage(req, res) {
     console.log(error);
   }
 }
+
+export async function updateProfile(req ,res) {
+  try {
+    console.log(req.body);
+  } catch (error) {
+    console.log(error);
+  }
+}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, setUser } from "../app/store";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Home() {
@@ -40,7 +40,7 @@ export default function Home() {
           .then(({ data }) => {
             setProfileImage(data.image);
             dispatch(setUser(data))
-            localStorage.setItem('user' ,JSON.stringify(data))
+            localStorage.setItem('user', JSON.stringify(data))
           })
           .catch((err) => {
             console.log(err);
@@ -81,12 +81,21 @@ export default function Home() {
           <p className="text-gray-600">{user.user.phone}</p>
           <p className="text-gray-600">{user.user.email}</p>
         </div>
-        <button
-          onClick={handleLogout}
-          className="mt-4 w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-300"
-        >
-          Logout
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={handleLogout}
+            className="mt-4 w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+          >
+            Logout
+          </button>
+          <Link to='/updateProfile'>
+            <button
+              className="mt-4 w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+            >
+              Edit
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
   );

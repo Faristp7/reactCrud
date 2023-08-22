@@ -4,6 +4,7 @@ import {
   login,
   logout,
   updateImage,
+  updateProfile,
   userRegister,
 } from "../controller/user.js";
 import { validate } from "../middleware/validator.js";
@@ -18,5 +19,6 @@ router.post("/register", validate, userRegister);
 router.post("/login", login);
 router.post("/logout", logout);
 router.post("/updateImage", updateImage);
+router.post("/update-profile", updateProfile);
 
 export default router;
