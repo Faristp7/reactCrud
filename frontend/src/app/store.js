@@ -19,9 +19,29 @@ const authSlice = createSlice({
   },
 });
 
+const adminSlice = createSlice({
+  name: "admin",
+  initialState: {
+    admin: {},
+    token: null,
+    success : false,
+  },
+  reducers: {
+    setAdmin: (state, action) => {
+      state.user = action.payload;
+      state.success = true
+    },
+    adminlogout(state, action){
+      state.success = false
+      state.user = {}
+    },
+  },
+});
+
 const store = configureStore({
   reducer:{
     auth : authSlice.reducer,
+    admin : adminSlice.reducer
   }
 })
 

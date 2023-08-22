@@ -32,29 +32,35 @@ export async function userRegister(req, res) {
     console.log(error);
   }
 }
-
 export async function login(req, res) {
   try {
     const { email, password } = req.body;
     if (email && password) {
       const user = await userModel.findOne({ email });
-      const userValid = bcrypt.compareSync(password, user.password);
-      if (user && userValid) {
-        const key = process.env.SECRECT_KEY;
-        const token = jwt.sign({ userId: user._id }, key, {
-          expiresIn: "1h",
-        });
-        res.cookie("token", token, {
-          httpOnly: true,
-          maxAge: 3600000,
-        });
-        res.status(200).json({ message: "login Successful", user, token });
+      if (user) {
+        const userValid = bcrypt.compareSync(password, user.password);
+        if (userValid) {
+          const key = process.env.SECRECT_KEY;
+          const token = jwt.sign({ userId: user._id }, key, {
+            expiresIn: "1h",
+          });
+          res.cookie("token", token, {
+            httpOnly: true,
+            maxAge: 3600000,
+          });
+          res.status(200).json({ message: "Login successful", user, token });
+        } else {
+          res.status(401).json({ message: "Invalid password" });
+        }
+      } else {
+        res.status(401).json({ message: "User not found" });
       }
     } else {
-      res.status(401).json({ message: "inValid" });
+      res.status(400).json({ message: "Invalid input" });
     }
   } catch (error) {
     console.log(error);
+    res.status(500).json({ message: "Internal server error" });
   }
 }
 
@@ -112,10 +118,19 @@ export async function updateProfile(req, res) {
     const user = await userModel.findById(userId);
     const userValid = bcrypt.compareSync(oldPassword, user.password);
     if (userValid) {
-      const user = await userModel.findByIdAndUpdate(userId, {
-        $set: { name, phone: phoneNumber, password: bcrypt.hashSync(newPassword , bcrypt.genSaltSync(10)), email },
-      },{new : true});
-      res.send(user)
+      const user = await userModel.findByIdAndUpdate(
+        userId,
+        {
+          $set: {
+            name,
+            phone: phoneNumber,
+            password: bcrypt.hashSync(newPassword, bcrypt.genSaltSync(10)),
+            email,
+          },
+        },
+        { new: true }
+      );
+      res.send(user);
     }
   } catch (error) {
     console.log(error);

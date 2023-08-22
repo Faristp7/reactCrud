@@ -7,19 +7,28 @@ import { setUser } from "../app/store";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errMsg, setErrMsg] = useState('')
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post("/login", { email, password });
-    const { user } = response.data;
-    dispatch(setUser(user));
-    localStorage.setItem("user", JSON.stringify(user));
-
-    navigate("/home");
+    try {
+      const response = await axios.post("/login", { email, password });
+      const { user } = response.data;
+      dispatch(setUser(user));
+      localStorage.setItem("user", JSON.stringify(user));
+      navigate("/home");
+    } catch (error) {
+      if (error.response) {
+        setErrMsg(error.response.data.message);
+      } else {
+        setErrMsg("An error occurred. Please try again later.");
+      }
+    }
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -68,8 +77,14 @@ export default function Login() {
               Log In
             </button>
           </div>
+          {errMsg && (
+            <p className="text-red-500 text-center py-2">
+              {errMsg}
+              &nbsp;
+            </p>
+          )}
           <Link to={"/signup"}>
-            <p className="my-2 cursor-pointer text-gray-600 underline">
+            <p className="cursor-pointer  text-gray-600 underline">
               Dont have an account ?
             </p>
           </Link>
