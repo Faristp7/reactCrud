@@ -96,8 +96,8 @@ export async function updateImage(req, res) {
       const user = await userModel.findByIdAndUpdate(userId, {
         $set: { image: url },
       });
-      if(user){
-        res.send(user)
+      if (user) {
+        res.send(user);
       }
     }
   } catch (error) {
@@ -105,9 +105,18 @@ export async function updateImage(req, res) {
   }
 }
 
-export async function updateProfile(req ,res) {
+export async function updateProfile(req, res) {
   try {
-    console.log(req.body);
+    const { name, phoneNumber, email, oldPassword, newPassword, userId } =
+      req.body;
+    const user = await userModel.findById(userId);
+    const userValid = bcrypt.compareSync(oldPassword, user.password);
+    if (userValid) {
+      const user = await userModel.findByIdAndUpdate(userId, {
+        $set: { name, phone: phoneNumber, password: bcrypt.hashSync(newPassword , bcrypt.genSaltSync(10)), email },
+      },{new : true});
+      res.send(user)
+    }
   } catch (error) {
     console.log(error);
   }
