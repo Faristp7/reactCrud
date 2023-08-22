@@ -8,6 +8,7 @@ import {
   userRegister,
 } from "../controller/user.js";
 import { validate } from "../middleware/validator.js";
+import { adminLogin } from "../controller/admin.js";
 
 
 const router = express.Router();
@@ -20,5 +21,6 @@ router.post("/login", login);
 router.post("/logout", logout);
 router.post("/updateImage", updateImage);
 router.post("/update-profile", updateProfile);
+router.post('/admin-login', adminLogin)
 
 export default router;

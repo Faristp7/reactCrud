@@ -38,7 +38,7 @@ export default function Home() {
         axios
           .post("/updateImage", { url, userId })
           .then(({ data }) => {
-            setProfileImage(data.image);
+            setProfileImage(data.image + "?timestamp=" + Date.now());
             dispatch(setUser(data))
             localStorage.setItem('user', JSON.stringify(data))
           })

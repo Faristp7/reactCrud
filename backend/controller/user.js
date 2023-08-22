@@ -25,7 +25,7 @@ export async function userRegister(req, res) {
         name,
         phone: phoneNumber,
       });
-      newUser.save();
+      newUser.save(); 
       res.send(true);
     }
   } catch (error) {
