@@ -3,7 +3,6 @@ import bcrypt from "bcryptjs";
 import userModel from "../model/userModel.js";
 import jwt from "jsonwebtoken";
 import cookie from "cookie";
-import multer from "multer";
 
 var salt = bcrypt.genSaltSync(10);
 
@@ -90,14 +89,17 @@ export async function logout(req, res) {
   }
 }
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
-
 export async function updateImage(req, res) {
   try {
-    
-
-    return res.status(200).json({ message: "upload Successfull" });
+    const { url, userId } = req.body;
+    if (url && userId) {
+      const user = await userModel.findByIdAndUpdate(userId, {
+        $set: { image: url },
+      });
+      if(user){
+        res.send(user)
+      }
+    }
   } catch (error) {
     console.log(error);
   }

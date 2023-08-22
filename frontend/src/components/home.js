@@ -1,27 +1,54 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../app/store";
+import { logout, setUser } from "../app/store";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Home() {
+  const presetKey = "p2bwkmow";
+  const cloudName = "dglfnmf0x";
+
   const user = useSelector((state) => state.auth);
   const [profileImage, setProfileImage] = useState(user.user.image);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const imageDataURL = e.target.result;
-        setProfileImage(imageDataURL);
-      };
-      reader.readAsDataURL(file);
-    }
-    console.log(user.user._id);
     const userId = user.user._id;
-    axios.post("/updateImage", {  userId });
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", presetKey);
+    formData.append("cloud_name", cloudName);
+
+    axios
+      .post(
+        "https://api.cloudinary.com/v1_1/dglfnmf0x/image/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: false,
+        }
+      )
+      .then((res) => {
+        const url = res.data.secure_url;
+        axios
+          .post("/updateImage", { url, userId })
+          .then(({ data }) => {
+            setProfileImage(data.image);
+            dispatch(setUser(data))
+            localStorage.setItem('user' ,JSON.stringify(data))
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   function handleLogout() {
