@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { adminlogout } from '../app/store';
 
 const UserTable = () => {
     const [userData, setUserData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+
+    const dispatch = useDispatch()
 
     useEffect(() => {
         axios.get('/getUser')
@@ -38,15 +42,28 @@ const UserTable = () => {
         }
     }
 
+    const handleLogout = () => {
+        console.log('heloo');
+        axios.get('/adminLogout')
+        dispatch(adminlogout())
+    }
+
     return (
         <div className="p-6">
-            <input
-                type="text"
-                placeholder="Search users..."
-                value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
-                className="mb-4 p-2 border-2 border-blue-100 rounded w-full md:w-1/3"
-            />
+            <div className='flex justify-between'>
+                <input
+                    type="text"
+                    placeholder="Search users..."
+                    value={searchTerm}
+                    onChange={e => setSearchTerm(e.target.value)}
+                    className="mb-4 p-2 border-2 border-blue-100 rounded w-full md:w-1/3"
+                />
+                <div>
+                    <button onClick={handleLogout} className='bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition duration-300'>
+                        Logout
+                    </button>
+                </div>
+            </div>
             <div className="overflow-x-auto">
                 <table className="table-auto w-full">
                     <thead>

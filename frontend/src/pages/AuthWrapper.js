@@ -33,11 +33,10 @@ export default function AuthWrapper() {
     axios.get("/checkAdminAuth")
     .then((res) => {
       if (res.data.message) {
-        console.log("ye[");
         dispatch(setAdmin())  
       }
     });
-  },[]);
+  },[admin.success]);
 
   return (
     <Routes>

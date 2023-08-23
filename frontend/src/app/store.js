@@ -25,12 +25,10 @@ const adminSlice = createSlice({
   },
   reducers: { 
     setAdmin: (state, action) => {
-      console.log("sotre");
       state.success = true;
     },
     adminlogout(state, action) {
       state.success = false;
-      state.admin = {};
     },
   },
 });

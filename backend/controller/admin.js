@@ -55,11 +55,25 @@ export async function checkAdminAuth(req,res) {
     const token = req.cookies.adminToken
     const key = process.env.SECRECT_KEY;
     if (!token) {
-      res.json(401).json({message : "token not found"})
+      console.log('no token');
+      // return res.json(401).json({message : "token not found"})
     }else{
       const verified = jwt.verify(token , key)
-      res.json({message : true})
+      return res.json({message : true})
     }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function adminLogout(req,res) {
+  try {
+    res.cookie('adminToken', "" , {
+      httpOnly : true,
+      expires : new Date(0),
+      secure : true,
+      sameSite: 'none',
+    }).json({message : 'logout successful'})
   } catch (error) {
     console.log(error);
   }

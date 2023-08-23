@@ -10,6 +10,9 @@ import {
 import { validate } from "../middleware/validator.js";
 import {
   adminLogin,
+
+  adminLogout,
+
   checkAdminAuth,
   deleteUser,
   getUser,
@@ -21,6 +24,7 @@ router.get("/");
 router.get("/checkAuth", checkAuth);
 router.get("/getUser", getUser);
 router.get("/checkAdminAuth", checkAdminAuth);
+router.get('/adminLogout' ,adminLogout)      
 
 router.post("/register", validate, userRegister);
 router.post("/login", login);

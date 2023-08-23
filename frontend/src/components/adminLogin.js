@@ -20,7 +20,7 @@ const AdminLogin = () => {
       setErrMsg(response.data.message)
       if (response.status === 200) {
         navigate('/dashboard')
-        dispatch(setAdmin(response.data.user))
+        dispatch(setAdmin())
       }
     } catch (error) {
       console.log(error ,'axios err');
