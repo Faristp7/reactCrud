@@ -8,13 +8,14 @@ import {
   userRegister,
 } from "../controller/user.js";
 import { validate } from "../middleware/validator.js";
-import { adminLogin } from "../controller/admin.js";
+import { adminLogin, getUser } from "../controller/admin.js";
 
 
 const router = express.Router();
 
 router.get("/");
 router.get("/checkAuth", checkAuth);
+router.get('/getUser', getUser)
 
 router.post("/register", validate, userRegister);
 router.post("/login", login);

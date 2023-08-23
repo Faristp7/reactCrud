@@ -7,6 +7,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../app/store";
 import AdminLogin from "../components/adminLogin";
+import UserTable from "../components/AdminDashboard";
 
 export default function AuthWrapper() {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ export default function AuthWrapper() {
           <Route path="/signup" element={!user.success ? <Signup /> : <Home/>} />
           <Route path="/home" element={user.success ? <Home /> : <Login/>} />
           <Route path="/admin" element={<AdminLogin/>} />
+          <Route path="/dashboard" element={<UserTable/>} />
     </Routes>
   );
 }

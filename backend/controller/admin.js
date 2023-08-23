@@ -1,4 +1,6 @@
 import bcrypt from 'bcryptjs'
+import adminModel from '../model/adminModel.js'
+import userModel from '../model/userModel.js'
 import jwt from "jsonwebtoken";
 
 var salt = bcrypt.genSaltSync(10);
@@ -6,12 +8,15 @@ var salt = bcrypt.genSaltSync(10);
 export async function adminLogin(req,res){
     try {
         const {email ,password} = req.body;
-        const hashedPassword = bcrypt.hashSync(password, salt);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
-        const newAdmin = new adminLogin({
-            email , password : hashedPassword
-        })
-        newAdmin.save()
+export async function getUser (req,res){
+    try {
+        const user = await userModel.find()
+        res.send(user)
     } catch (error) {
         console.log(error);
     }
