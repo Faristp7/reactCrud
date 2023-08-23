@@ -45,7 +45,7 @@ const UserTable = () => {
                 placeholder="Search users..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
-                className="mb-4 p-2 border rounded w-full md:w-1/3"
+                className="mb-4 p-2 border-2 border-blue-100 rounded w-full md:w-1/3"
             />
             <div className="overflow-x-auto">
                 <table className="table-auto w-full">

@@ -4,17 +4,16 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: {},
-    token: null,
-    success : false,
+    success: false,
   },
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
-      state.success = true
+      state.success = true;
     },
-    logout(state, action){
-      state.success = false
-      state.user = {}
+    logout(state, action) {
+      state.success = false;
+      state.user = {};
     },
   },
 });
@@ -22,28 +21,27 @@ const authSlice = createSlice({
 const adminSlice = createSlice({
   name: "admin",
   initialState: {
-    admin: {},
-    token: null,
-    success : false,
+    success: false,
   },
-  reducers: {
+  reducers: { 
     setAdmin: (state, action) => {
-      state.user = action.payload;
-      state.success = true
+      console.log("sotre");
+      state.success = true;
     },
-    adminlogout(state, action){
-      state.success = false
-      state.user = {}
+    adminlogout(state, action) {
+      state.success = false;
+      state.admin = {};
     },
   },
 });
 
 const store = configureStore({
-  reducer:{
-    auth : authSlice.reducer,
-    admin : adminSlice.reducer
-  }
-})
+  reducer: {
+    auth: authSlice.reducer,
+    admin: adminSlice.reducer,
+  },
+});
 
 export const { setUser, logout } = authSlice.actions;
+export const { setAdmin , adminlogout} = adminSlice.actions;
 export default store;

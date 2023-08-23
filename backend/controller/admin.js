@@ -6,15 +6,15 @@ import jwt from "jsonwebtoken";
 export async function adminLogin(req, res) {
   try {
     const { email, password } = req.body;
-    const user = await adminModel.find({ email });
+    const user = await adminModel.findOne({ email });
     if (user) {
-      const valid = bcrypt.compareSync(password, user[0].password);
+      const valid = bcrypt.compareSync(password, user.password);
       if (valid) {
         const key = process.env.SECRECT_KEY;
-        const token = jwt.sign({ userId: user[0]._id }, key, {
+        const token = jwt.sign({ userId: user._id }, key, {
           expiresIn: "1h",
         });
-        res.cookie("token", token, {
+        res.cookie("adminToken", token, {
           httpOnly: true,
           maxAge: 3600000,
         });
@@ -44,6 +44,21 @@ export async function deleteUser(req, res) {
     const user = await userModel.deleteOne({ _id: req.params.id });
     if (user) {
       res.send(true);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function checkAdminAuth(req,res) {
+  try {
+    const token = req.cookies.adminToken
+    const key = process.env.SECRECT_KEY;
+    if (!token) {
+      res.json(401).json({message : "token not found"})
+    }else{
+      const verified = jwt.verify(token , key)
+      res.json({message : true})
     }
   } catch (error) {
     console.log(error);

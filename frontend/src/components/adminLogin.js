@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setAdmin } from '../app/store'
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
@@ -8,6 +10,7 @@ const AdminLogin = () => {
   const [errMsg , setErrMsg] = useState('');
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -17,6 +20,7 @@ const AdminLogin = () => {
       setErrMsg(response.data.message)
       if (response.status === 200) {
         navigate('/dashboard')
+        dispatch(setAdmin(response.data.user))
       }
     } catch (error) {
       console.log(error ,'axios err');

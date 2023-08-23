@@ -8,22 +8,27 @@ import {
   userRegister,
 } from "../controller/user.js";
 import { validate } from "../middleware/validator.js";
-import { adminLogin, deleteUser, getUser } from "../controller/admin.js";
-
+import {
+  adminLogin,
+  checkAdminAuth,
+  deleteUser,
+  getUser,
+} from "../controller/admin.js";
 
 const router = express.Router();
 
 router.get("/");
 router.get("/checkAuth", checkAuth);
-router.get('/getUser', getUser)
+router.get("/getUser", getUser);
+router.get("/checkAdminAuth", checkAdminAuth);
 
 router.post("/register", validate, userRegister);
 router.post("/login", login);
 router.post("/logout", logout);
 router.post("/updateImage", updateImage);
 router.post("/update-profile", updateProfile);
-router.post('/admin-login', adminLogin)
+router.post("/admin-login", adminLogin);
 
-router.delete('/deleteUser/:id' ,deleteUser)
+router.delete("/deleteUser/:id", deleteUser);
 
 export default router;
