@@ -8,7 +8,7 @@ import {
   userRegister,
 } from "../controller/user.js";
 import { validate } from "../middleware/validator.js";
-import { adminLogin, getUser } from "../controller/admin.js";
+import { adminLogin, deleteUser, getUser } from "../controller/admin.js";
 
 
 const router = express.Router();
@@ -23,5 +23,7 @@ router.post("/logout", logout);
 router.post("/updateImage", updateImage);
 router.post("/update-profile", updateProfile);
 router.post('/admin-login', adminLogin)
+
+router.delete('/deleteUser/:id' ,deleteUser)
 
 export default router;
