@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setAdmin } from '../app/store'
+import { setAdmin } from '../redux/store'
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');

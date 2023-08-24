@@ -5,7 +5,7 @@ import Home from "../components/home";
 import React, { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setAdmin, setUser } from "../app/store";
+import { setAdmin, setUser } from "../redux/store";
 import AdminLogin from "../components/adminLogin";
 import UserTable from "../components/AdminDashboard";
 import axios from "axios";

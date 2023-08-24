@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUser } from "../app/store";
+import { setUser } from "../redux/store";
 
 export default function Login() {
   const [email, setEmail] = useState("");

@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import store from "./app/store";
+import store from "./redux/store";
 import AuthWrapper from "./pages/AuthWrapper";
 
 axios.defaults.baseURL = "http://localhost:5000/";

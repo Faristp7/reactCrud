@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import { setUser } from '../app/store';
+import { setUser } from '../redux/store';
 
 export default function ProfileUpdateForm() {
     const user = useSelector((state) => state.auth);

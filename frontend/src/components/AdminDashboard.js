@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { adminlogout } from '../app/store';
+import { adminlogout } from '../redux/store';
 
 const UserTable = () => {
     const [userData, setUserData] = useState([]);
